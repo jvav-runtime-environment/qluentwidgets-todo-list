@@ -296,6 +296,10 @@ class TaskMain(QWidget):
         self.sort()
         self.set_selected_bar(task_bar)
 
+    def get_tasks_attr(self):
+        # 返回所有任务数据
+        return [i.get_attribute() for i in self.bars]
+
     def load_tasks(self, tasks_data):
         # 从数据加载任务
         for i in tasks_data:
@@ -318,7 +322,7 @@ class TaskMain(QWidget):
 
     def sort(self):
         # 根据剩余时间排序组件
-        self.bars.sort(key=lambda x: x.time_left + x.topmost)
+        self.bars.sort(key=lambda x: x.time_left - x.topmost)
 
         self.flowLayout.removeAllWidgets()
         for i in self.bars:
@@ -326,7 +330,3 @@ class TaskMain(QWidget):
 
         # 重绘组件
         self.flowLayout.update()
-
-    def get_tasks_attr(self):
-        # 返回所有任务数据
-        return [i.get_attribute() for i in self.bars]

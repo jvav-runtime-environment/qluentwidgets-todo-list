@@ -22,6 +22,7 @@ from qfluentwidgets import (
 from qfluentwidgets import FluentIcon as FIF
 
 import datetime
+from PyQt5.QtCore import QTimer
 
 
 class TaskBar(QWidget):
@@ -57,10 +58,7 @@ class TaskBar(QWidget):
         self.title = title
         self.TitleLabel.setText(title)
         self.update_ring()
-        if self.topmost:
-            self.TransparentToolButton.setIcon(FIF.UP)
-        else:
-            self.TransparentToolButton.setIcon(FIF.DOWN)
+        self.update_topmost_icon()
 
     def init_widgets(self):
         self.CardWidget = CardWidget(self)
@@ -143,10 +141,12 @@ class TaskBar(QWidget):
         self.horizontalLayout2.addLayout(self.horizontalLayout)
 
     def set_title(self, title: str):
+        # 设置标题
         self.title = title
         self.TitleLabel.setText(title)
 
     def update_ring(self):
+        # 更新进度环
         self.current_date = datetime.datetime.now()
         last_time = self.end_date - self.current_date
         total_time = self.end_date - self.start_date
@@ -202,10 +202,14 @@ class TaskBar(QWidget):
         self.topmost = not self.topmost
         self.topmost_signal.emit()
 
+        self.update_topmost_icon()
+
+    def update_topmost_icon(self):
+        # 更新图标方向
         if self.topmost:
-            self.TransparentToolButton.setIcon(FIF.UP)
-        else:
             self.TransparentToolButton.setIcon(FIF.DOWN)
+        else:
+            self.TransparentToolButton.setIcon(FIF.UP)
 
     def button_setting_func(self):
         # 设置按钮
