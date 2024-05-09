@@ -49,7 +49,7 @@ class TaskBar(QWidget):
         self.end_date = datetime.datetime.fromisoformat(end_date)
         self.current_date = datetime.datetime.now()
 
-        self.left_time = 0
+        self.time_left = 0
         self.ring_color = color.QColor(0, 255, 0)
         self.topmost = topmost
         self.task_progress = progress
