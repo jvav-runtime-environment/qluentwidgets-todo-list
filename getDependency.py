@@ -9,25 +9,31 @@
 import os
 
 
-has_all_dependencies = True
+has_pyside6 = True
+has_qfluentwidgets = True
 
 try:
     import PySide6
     import PySide6.QtWidgets
     import PySide6.QtGui
 except ImportError:
-    has_all_dependencies = False
-    print("missing pyside6, installing ...")
-    os.system("pip install pyside6")
+    has_pyside6 = False
 
 try:
     import qfluentwidgets
 except ImportError:
-    has_all_dependencies = False
-    print("missing qfluentwidgets, installing ...")
-    os.system("pip install qfluentwidgets")
+    has_qfluentwidgets = False
 
-if not has_all_dependencies:
-    print("安装完成, 请重新启动程序")
-    os.system("pause")
-    exit()
+
+if not (has_pyside6 and has_qfluentwidgets):
+    print("缺少运行库:")
+    if not has_pyside6:
+        print("- PySide6")
+    if not has_qfluentwidgets:
+        print("- qfluentwidgets")
+
+    if input("是否安装?:(y/n)") == "y":
+        if not has_pyside6:
+            os.system("pip install PySide6")
+        if not has_qfluentwidgets:
+            os.system("pip install qfluentwidgets")
